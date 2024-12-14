@@ -57,7 +57,13 @@ jobs:
         run: pnpm install
 
       - name: Run tests
-        run: pnpm run test
+        run: pnpm run test --coverage --coverage.reporter text --coverage.reporter lcov
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage/
 
   build:
     runs-on: ubuntu-latest
