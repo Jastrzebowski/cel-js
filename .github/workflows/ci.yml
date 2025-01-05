@@ -33,10 +33,17 @@ jobs:
         run: pnpm run type-check
 
       - name: Commit lint
-        run: echo ${{ github.event.pull_request.title }} | pnpm commitlint --verbose
+        run: echo "${{ github.event.pull_request.title }}" | pnpm commitlint --verbose
 
   test:
     runs-on: ubuntu-latest
+
+    permissions:
+      # Required to checkout the code
+      contents: read
+      # Required to put a comment into the pull-request
+      pull-requests: write
+
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -56,8 +63,19 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Run tests
-        run: pnpm run test
+      - name: Run tests with coverage
+        run: pnpm run coverage:ci
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage/
+
+      # Add coverage report as a comment on PRs
+      - name: Report Coverage
+        if: github.event_name == 'pull_request'
+        uses: davelosert/vitest-coverage-report-action@v2
 
   build:
     runs-on: ubuntu-latest
