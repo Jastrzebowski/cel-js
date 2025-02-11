@@ -47,7 +47,7 @@
     "@types/ramda": "0.30.0",
     "@typescript-eslint/eslint-plugin": "6.21.0",
     "@typescript-eslint/parser": "6.21.0",
-    "esbuild": "0.21.1",
+    "esbuild": "0.25.0",
     "eslint": "8.53.0",
     "eslint-plugin-sonarjs": "0.25.1",
     "eslint-plugin-vitest": "0.4.1",
